@@ -705,14 +705,7 @@ function stopVideo() {
 <script>
 ///start update trailer
 function update_snapshot(elem) {
-	first_field = document.getElementById("popular_1_providers_logos");
-	second_field = document.getElementById("popular_1_providers_names");
-	console.log(first_field);
-	console.log(first_field.innerHTML);
-	console.log(first_field.outerHTML);
-	console.log(second_field);
-	console.log(second_field.innerHTML);
-	console.log(second_field.outerHTML);
+
     var trailer_unparsed = elem.getAttribute('data-content'); //GRAB HTML WITH YOUTUBE URL
 	var trailer_parsed = trailer_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
     var trailer_url_no_equals = trailer_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
