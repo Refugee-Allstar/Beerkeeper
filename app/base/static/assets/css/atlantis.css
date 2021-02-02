@@ -4586,8 +4586,12 @@ html, body, iframe, #wrap-player, .video-container, #player{
   width:100%;
   height:100%;
   margin:0px;
+  overflow:auto;
 }
 
+footer{
+  position:static;
+ }
 
 /*     	Popover     */
 .popover {
