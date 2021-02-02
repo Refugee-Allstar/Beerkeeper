@@ -18,7 +18,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class ProductionConfig(Config):
-    DEBUG = False
+    DEBUG = True
 
     # Security
     SESSION_COOKIE_HTTPONLY  = True

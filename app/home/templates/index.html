@@ -3,7 +3,9 @@
 {% block title %} Dashboard {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock stylesheets %}
 
 {% block content %}
 			
@@ -30,18 +32,25 @@
 								{% for p in popular %}
                 				{% if loop.index == 1 %}
 									<div class="circular--portrait">
-										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_video(this)" />
+										<img id= "mostpopular" src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target={{ p['Provider_Info']}}><br></br></a>" data-html="true" onclick="update_snapshot(this)" />
 									</div>
-									<h6 class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
+									<h6 id="popular_1" class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
 										<p>Rating: {{ p['Rating'] }}/10</p>
-								</div>
+										{% for network in p['Provider_Info'] %}
+										<p hidden id="popular_1_providers_logos" src="https://image.tmdb.org/t/p/original/{{ network['Logo'] }}" height='25px' width='25px'>
+										{% endfor %}
+										<br></br>
+										{% for network in p['Provider_Info'] %}
+										<span hidden id="popular_1_provider_names" class="badge badge-info">{{ network['Networks'] }}</span>
+										{% endfor %}
+									</div>
 								{% endif %}
                 				{% endfor %}
 								<div class="px-2 pb-2 pb-md-0 text-center">
 								{% for p in popular %}
                 				{% if loop.index == 2 %}
 									<div class="circular--portrait">
-										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_video(this)" />
+										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)" />
 									</div>
 								<h6 class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
 									<p>Rating: {{ p['Rating'] }}/10</p>
@@ -52,7 +61,7 @@
 								{% for p in popular %}
                 				{% if loop.index == 3 %}
 									<div class="circular--portrait">
-										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_video(this)" />
+										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)" />
 									</div>
 									<h6 class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
 										<p>Rating: {{ p['Rating'] }}/10</p>
@@ -66,32 +75,32 @@
 				<div class="col-md-6">
 					<div class="card full-height">
 						<div class="card-body">
-							<div class="card-title">Movie Details</div>
+							{% for p in popular %}
+                			{% if loop.index == 1 %}
+							<div id="snapshot_title" class="card-title">{{ p['Name'] }}</div>
+							{% endif %}
+                			{% endfor %}
 							<div class="row py-3">
-								<div class="col-md-4 d-flex flex-column justify-content-around">
-								
-									<div>
-										<h6 class="fw-bold text-uppercase text-success op-8">Cast</h6>
-										<h3 class="fw-bold">$9.782</h3>
-									</div>
-									<div>
-										<h6 class="fw-bold text-uppercase text-danger op-8">Viewable On</h6>
-										<h3 class="fw-bold">$1,248</h3>
-									</div>
-									<div>
-										<h6 class="fw-bold text-uppercase text-danger op-8">Cost</h6>
-										<h3 class="fw-bold">$1,248</h3>
-									</div>
-									<div>
-										<h6 class="fw-bold text-uppercase text-danger op-8">Reviews</h6>
-										<h3 class="fw-bold">$1,248</h3>
-									</div>
 								</div>
 								<div class="col-xl-8">
 									<div id="container">
 										<div id='wrap-player'>
 										<div class="video-container">
 											<div id="player"></div>
+												<div class="card-footer bg-transparent border-success">
+												<h6 class="fw-bold text-uppercase text-danger op-8">Watch On</h6>
+												{% for p in popular %}
+                								{% if loop.index == 3 %}
+												{% for network in p['Provider_Info'] %}
+												<img src="https://image.tmdb.org/t/p/original/{{ network['Logo'] }}" height='25px' width='25px'>
+												{% endfor %}
+												<br></br>
+												{% for network in p['Provider_Info'] %}
+												<span class="badge badge-info">{{ network['Networks'] }}</span>
+												{% endfor %}
+											{% endif %}
+                							{% endfor %}
+										</div>
 										</div> 
 									</div>
 									</div>
@@ -138,7 +147,7 @@
                                             <tbody>
     
                                             {% for movie in result %}
-                                                <tr data-placement="bottom" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  movie['Name'] }}" data-content="{{  movie['Description']  }} <a href='https://www.youtube.com/watch?v={{  movie['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_video(this)">
+                                                <tr data-placement="bottom" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  movie['Name'] }}" data-content="{{  movie['Description']  }} <a href='https://www.youtube.com/watch?v={{  movie['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)">
                                                     
                                                     <td>
                                                         <img class="rounded-circle m-r-10" style="width:40px;" src="https://image.tmdb.org/t/p/w500/{{ movie['Poster'] }}">
@@ -576,122 +585,14 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+		
+
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-	<!-- Atlantis DEMO methods, don't include it in your project! -->
-	<script src="/static/assets/js/setting-demo.js"></script>
-	<script src="/static/assets/js/demo.js"></script>
-
-	<script>
-		Circles.create({
-			id:'circles-1',
-			radius:45,
-			value:60,
-			maxValue:100,
-			width:7,
-			text: 5,
-			colors:['#f1f1f1', '#FF9E27'],
-			duration:400,
-			wrpClass:'circles-wrp',
-			textClass:'circles-text',
-			styleWrapper:true,
-			styleText:true
-		})
-
-		Circles.create({
-			id:'circles-2',
-			radius:45,
-			value:70,
-			maxValue:100,
-			width:7,
-			text: 36,
-			colors:['#f1f1f1', '#2BB930'],
-			duration:400,
-			wrpClass:'circles-wrp',
-			textClass:'circles-text',
-			styleWrapper:true,
-			styleText:true
-		})
-
-		Circles.create({
-			id:'circles-3',
-			radius:45,
-			value:40,
-			maxValue:100,
-			width:7,
-			text: 12,
-			colors:['#f1f1f1', '#F25961'],
-			duration:400,
-			wrpClass:'circles-wrp',
-			textClass:'circles-text',
-			styleWrapper:true,
-			styleText:true
-		})
-
-		var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
-
-		var mytotalIncomeChart = new Chart(totalIncomeChart, {
-			type: 'bar',
-			data: {
-				labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
-				datasets : [{
-					label: "Total Income",
-					backgroundColor: '#ff9e27',
-					borderColor: 'rgb(23, 125, 255)',
-					data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
-				}],
-			},
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				legend: {
-					display: false,
-				},
-				scales: {
-					yAxes: [{
-						ticks: {
-							display: false //this will remove only the label
-						},
-						gridLines : {
-							drawBorder: false,
-							display : false
-						}
-					}],
-					xAxes : [ {
-						gridLines : {
-							drawBorder: false,
-							display : false
-						}
-					}]
-				},
-			}
-		});
-
-		$('#lineChart').sparkline([105,103,123,100,95,105,115], {
-			type: 'line',
-			height: '70',
-			width: '100%',
-			lineWidth: '2',
-			lineColor: '#ffa534',
-			fillColor: 'rgba(255, 165, 52, .14)'
-		});
-	</script>
-<script>
-function test(elem){
-   var button_name = elem.getAttribute('data-original-title');
-   var container = document.getElementById("year_1");
-    var content = container.innerHTML;
-    container.innerHTML= button_name; 
-    console.log(button_name)
-
-}
-</script>
 
 <script>
 function rating_update(elem){
@@ -738,6 +639,16 @@ function rating_update(elem){
 </script>
 
 <script>
+
+
+
+var mostpopular = document.getElementById("mostpopular");
+var most_pop_unparsed = mostpopular.getAttribute('data-content');
+
+var most_pop_parsed = most_pop_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
+var most_pop_no_equals = most_pop_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
+
+
 var tag = document.createElement('script');
 
 tag.src = "https://www.youtube.com/iframe_api";
@@ -760,7 +671,7 @@ function onYouTubeIframeAPIReady() {
         },
         height: '100%',
         width: '100%',
-        videoId: '54yIMKjG048',
+        videoId: most_pop_no_equals[1],
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -788,13 +699,31 @@ function stopVideo() {
 }
 </script>
 
+
+
+
 <script>
-function update_video(elem) {
+///start update trailer
+function update_snapshot(elem) {
+	first_field = document.getElementById("popular_1_providers_logos");
+	second_field = document.getElementById("popular_1_providers_names");
+	console.log(first_field);
+	console.log(first_field.innerHTML);
+	console.log(first_field.outerHTML);
+	console.log(second_field);
+	console.log(second_field.innerHTML);
+	console.log(second_field.outerHTML);
     var trailer_unparsed = elem.getAttribute('data-content'); //GRAB HTML WITH YOUTUBE URL
-    var trailer_parsed = trailer_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
+	var trailer_parsed = trailer_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
     var trailer_url_no_equals = trailer_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
     document.getElementById("player").src = "https://www.youtube.com/embed/".concat(trailer_url_no_equals[1])
-    
+///end update trailer
+
+///start update snapshot title
+var movie_name = elem.getAttribute('data-original-title'); ///grab title from click element 
+var snapshot_title_elem = document.getElementById("snapshot_title");
+snapshot_title_elem.innerHTML = movie_name;
+///end update movie snapshot title
 }
 </script>
 {% endblock javascripts %}

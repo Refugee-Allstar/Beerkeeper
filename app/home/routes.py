@@ -2,7 +2,8 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-
+from typing import NewType
+import requests
 from app.home import blueprint
 from flask import render_template, redirect, url_for, request, session
 from flask_login import login_required, current_user
@@ -32,18 +33,43 @@ def update_status():
     status = req_data['status']
 
 
+def get_provider(movie_id):
+    d = requests.get('https://api.themoviedb.org/3/movie/'+movie_id+'/watch/providers?api_key='+tmdb.api_key+'&language=en-US')
+    d_new = d.json()
+    rent_services = []
+    try: 
+        for i in d_new['results']['US']['rent']:
+            data = {'Networks': i['provider_name'], 'Logo': i['logo_path']}
+            rent_services.append(data)
+        return rent_services
+    except:
+        try:
+            new_dict = d_new['results']['US']['flatrate'][0]
+            for i in new_dict:
+                data = {'Networks': i['provider_name'], 'Logo': i['logo_path']}
+                rent_services.append(data)
+            return rent_services 
+        except:
+                return {'Networks': 'N/A', 'Logo': 'N/A'}
+
+
+
+
 def popular():
     popular = movie.popular()
     popular_movies = []
     for p in popular:
+        network = get_provider(str(p.id))
+        print(network)
+        #print(p.id, p.title)
         movie_videos = movie.videos(p.id)
         movie_id = "NOT_FOUND"
         if movie_videos:
             movie_id = movie_videos[0]['key']
         d = {'Name': p.title, 'Rating': p.vote_average, 'Release Date': p.release_date, 'Description' : p.overview, 
-        'Poster': p.poster_path, 'Popularity': p.popularity, 'Movie ID': movie_id, 'Vote Count' : p.vote_count
+        'Poster': p.poster_path, 'Popularity': p.popularity, 'Movie ID': movie_id, 'Vote Count' : p.vote_count, 'Movie TMDB ID': p.id,
+        'Provider_Info': network
         }
-        print(d)
         popular_movies.append(d)
 
     return popular_movies[:8]
