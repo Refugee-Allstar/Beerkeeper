@@ -1,0 +1,134 @@
+
+
+             <div class="row row-cols-1 row-cols-md-3 g-4">
+              <div class="col">
+                <div class="card h-100">
+                {% for p in popular %}
+                {% if loop.index == 1 %}
+                  <img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" class="card-img-top" alt="{{ p['Name'] }} Poster"/>
+                  <div class="card-body">
+                    <h5 class="card-title">{{ p['Name'] }}</h5>
+                    <p class="card-text">
+                      {{ p['Description'] }}
+                    </p>
+                {% endif %}
+                {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                {% for p in popular %}
+                {% if loop.index == 2 %}
+                  <img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" class="card-img-top" alt="{{ p['Name'] }} Poster"/>
+                  <div class="card-body">
+                    <h5 class="card-title">{{ p['Name'] }}</h5>
+                    <p class="card-text">
+                      {{ p['Description'] }}
+                    </p>
+                {% endif %}
+                {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                {% for p in popular %}
+                {% if loop.index == 3 %}
+                  <img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" class="card-img-top" alt="{{ p['Name'] }} Poster"/>
+                  <div class="card-body">
+                    <h5 class="card-title">{{ p['Name'] }}</h5>
+                    <p class="card-text">
+                      {{ p['Description'] }}
+                    </p>
+                {% endif %}
+                {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100">
+                {% for p in popular %}
+                {% if loop.index == 4 %}
+                  <img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" class="card-img-top" alt="{{ p['Name'] }} Poster"/>
+                  <div class="card-body">
+                    <h5 class="card-title">{{ p['Name'] }}</h5>
+                    <p class="card-text">
+                      {{ p['Description'] }}
+                    </p>
+                {% endif %}
+                {% endfor %}
+                  </div>
+                </div>
+              <div class="row">
+                <div class="card h-100">
+                {% for p in popular %}
+                {% if loop.index == 4 %}
+                  <img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" class="card-img-top" alt="{{ p['Name'] }} Poster"/>
+                  <div class="card-body">
+                    <h5 class="card-title">{{ p['Name'] }}</h5>
+                    <p class="card-text">
+                      {{ p['Description'] }}
+                    </p>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+                        
+             
+             
+             
+             
+
+                   <div class="bd-example">
+        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators my-4">
+            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+          {% for p in popular %}
+          {% if loop.index == 1 %}
+              <img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" class="d-block w-100" alt="{{ p['Name'] }} Poster" height ="400px" width = "100px"> 
+              <div class="carousel-caption d-none d-md-block bg-dark mb-4"
+                <h5>First slide label</h5>
+                <p>{{ p['Description'] }}</p>
+              </div>
+            </div>
+          {% endif %}
+          {% endfor %}
+            <div class="carousel-item">
+          {% for p in popular %}
+          {% if loop.index == 2 %}
+              <img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" class="d-block w-100" alt="{{ p['Name'] }} Poster" height ="400px" width = "100px"> 
+              <div class="carousel-caption d-none d-md-block bg-dark mb-4"
+                <h5>First slide label</h5>
+                <p>{{ p['Description'] }}</p>
+              </div>
+            </div>
+          {% endif %}
+          {% endfor %}
+            <div class="carousel-item">
+          {% for p in popular %}
+          {% if loop.index == 3 %}
+              <img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" class="d-block w-100" alt="{{ p['Name'] }} Poster" height ="400px" width = "100px"> 
+              <div class="carousel-caption d-none d-md-block bg-dark mb-4"
+                <h5>First slide label</h5>
+                <p>{{ p['Description'] }}</p>
+              </div>
+            </div>
+          {% endif %}
+          {% endfor %}
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>

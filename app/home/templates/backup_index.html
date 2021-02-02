@@ -1,0 +1,254 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <!-- [ breadcrumb ] start -->
+
+            <!-- [ breadcrumb ] end -->
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ Main Content ] start -->
+                        <div class="col-xl-8 col-md-6">
+                            <div class="card daily-sales">
+                                <div class="card-block">
+                                    <h3 class="f-w-300 d-flex align-items-center float-left m-0" id="rating_title">No Movie Selected</h3>
+                                    <br></br>
+                                    <br></br>
+                                    <h3 class="f-w-300 d-flex align-items-center float-left m-0"><i class="feather icon-star-on text-c-green f-30 m-r-10"></i></h3>
+                                    <h3 class="f-w-300 d-flex align-items-center float-left m-0" id="rating_score">N/A</h3>
+                                    <br></br>
+                                    <div class="progress m-t-30  m-b-20" style="height: 20px;">
+                                    <div class="progress-bar progress-c-theme" id="rating_progbar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card Recent-Users">
+                                <div class="card-header">
+                                    <h5>Search Movies</h5>
+                                    <form role="form" method="post" action="">
+                                    {{ form.hidden_tag() }}
+                                    {% if msg %}
+                                        {{ msg | safe }}
+                                    {% else %}
+                                        Please enter a movie name to search for
+                                    {% endif %}                     
+                            <div class="input-group mb-3">
+                            {{ form.movie(placeholder="Movie", class="form-control") }}
+                            </div>
+                            <div class="form-group text-left">
+                            </div>
+                            <button type="submit" name="search" class="btn btn-primary shadow-2 mb-4">Find Movie</button>
+                            </form>
+                                </div>
+                                <div class="card-block px-0 py-3">
+                                    <div class="table-responsive">
+                                        <table id="table1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Poster</th>
+                                                    <th>Name</th>
+                                                    <th>Rating</th>
+                                                    <th>Release Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+    
+                                            {% for movie in result %}
+                                                <tr data-placement="bottom" container="body" tabindex="0" data-trigger="focus" data-toggle="popover"  title="{{  movie['Name'] }}" data-content="{{  movie['Description']  }}<a href='https://www.youtube.com/watch?v={{  movie['Movie ID']  }}' target='youtube_trailer'><br></br>View Trailer</a>" data-html="true" boundary="viewport" onclick="update_trailer(this)">
+                                                    
+                                                    <td>
+                                                        <img class="rounded-circle m-r-10" style="width:40px;" src="https://image.tmdb.org/t/p/w500/{{ movie['Poster'] }}">
+                                                    </td>
+                                                    <td>{{ movie['Name'] }}</td>
+                                                    <td>{{ movie['Rating'] }}</td>
+                                                    <td>{{ movie['Release Date'] }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>    
+                                        </table>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <!--[ daily sales section ] end-->
+                        <!--[ Monthly  sales section ] starts-->
+                        <div class="col-md-6 col-xl-8">
+                            <div class="card Monthly-sales">
+                                <div class="card-block">
+                                    <h3 class="f-w-300 d-flex align-items-center float-center m-0" id="rating_title">Trailer</h3>
+                                    <br></br>
+                                    <div class="row align-items-center">
+                                        <div class="col-9">
+                                        <div id="ytplayer"></div>
+                                            <!--<iframe width="560" height="315" frameborder="0" src="https://www.youtube.com/embed/tgbNymZ7vqY" name="youtube_trailer"></iframe>-->
+                                        </div>
+                                        <div class="col-3 text-right">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--[ Monthly  sales section ] end-->
+                        <!--[ year  sales section ] starts-->
+                       
+                        <!--[ year  sales section ] end-->
+                        <!--[ Recent Users ] start-->
+
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card card-event">
+                                <div class="card-block">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col">
+                                            <h5 class="m-0">Upcoming Event</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="label theme-bg2 text-white f-14 f-w-400 float-right">34%</label>
+                                        </div>
+                                    </div>
+                                    <h2 class="mt-3 f-w-300">45<sub class="text-muted f-14">Competitors</sub></h2>
+                                    <h6 class="text-muted mt-4 mb-0">You can participate in event </h6>
+                                    <i class="fab fa-angellist text-c-purple f-50"></i>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-block border-bottom">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <i class="feather icon-zap f-30 text-c-green"></i>
+                                        </div>
+                                        <div class="col">
+                                            <h3 class="f-w-300">5 Most Popular Movies</h3>
+                                            <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Poster</th>
+                                                    <th>Name</th>
+                                                    <th>Rating</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for p in popular %}
+                                                <tr tabindex="0" data-trigger="focus" data-toggle="popover" container="table" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='ytplayer'><br></br>View Trailer</a>" data-html="true" boundary="viewport" onclick="rating_update(this)">
+                                                    <td>
+                                                        <img class="rounded-circle m-r-10" style="width:40px;" src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}">
+                                                    </td>
+                                                    <td>{{ p['Name'] }}</td>
+                                                    <td>{{ p['Rating'] }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>    
+                                        </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+function test(elem){
+   var button_name = elem.getAttribute('data-original-title');
+   var container = document.getElementById("year_1");
+    var content = container.innerHTML;
+    container.innerHTML= button_name; 
+    console.log(button_name)
+
+}
+</script>
+
+<script>
+function rating_update(elem){
+    
+    var update_value = elem.getAttribute('data-original-title'); //GRAB HTML WITH MOVIE TITLE
+    var title_elem = document.getElementById("rating_title"); //GRAB CURRENT FIELD WITH RATING "NA" PLACEHOLDER 
+    var rating_elem= document.getElementById("rating_score"); //GRAB CURRENT FIELD WITH TITLE "NO MOVIE SELECTED" PLACEHOLDER
+    
+
+    var content = title_elem.innerHTML;
+
+
+    title_elem.innerHTML= update_value;
+
+
+    
+    var string = elem.innerHTML; 
+    var result = string.match(/<td>\d.\d<[/]td>/g);
+    if (result == null){
+        result = string.match(/<td>\d<[/]td>/g);
+    }
+
+
+    rating_elem.innerHTML = result;
+   
+    var new_rating= rating_elem.innerHTML;
+    var result = new_rating.match(/\d.\d/g);
+    if (result == null){
+        result = new_rating.match(/\d\d|\d/g);
+    }
+
+    //EDIT THE PROGRESS BAR FOR RATING
+    var prog = parseFloat(result[0]);
+    var new_width = (prog*10).toString();
+    final_width = new_width.concat("%")
+    document.getElementById("rating_progbar").style["width"] = final_width;
+
+    //CHANGE THE TRAILER TO THE CURRENT SELECTION
+    var trailer_unparsed = elem.getAttribute('data-content'); //GRAB HTML WITH YOUTUBE URL
+    var trailer_parsed = trailer_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
+    var trailer_url_no_equals = trailer_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
+    document.getElementById("ytplayer").src = "https://www.youtube.com/embed/".concat(trailer_url_no_equals[1])
+}
+</script>
+
+<script>
+  // Load the IFrame Player API code asynchronously.
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/player_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // Replace the 'ytplayer' element with an <iframe> and
+  // YouTube player after the API code downloads.
+  var player;
+  function onYouTubePlayerAPIReady() {
+    player = new YT.Player('ytplayer', {
+      height: '360',
+      width: '640',
+      videoId: 'M7lc1UVf-VE'
+    });
+  }
+</script>
+
+<script>
+function update_video(elem) {
+    var trailer_unparsed = elem.getAttribute('data-content'); //GRAB HTML WITH YOUTUBE URL
+    var trailer_parsed = trailer_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
+    var trailer_url_no_equals = trailer_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
+    document.getElementById("ytplayer").src = "https://www.youtube.com/embed/".concat(trailer_url_no_equals[1])
+    
+}
+</script>
+
+{% endblock javascripts %}
