@@ -6,3 +6,8 @@ flask_sqlalchemy==2.*
 email_validator
 python-decouple
 gunicorn
+pandas
+tmdbsimple
+tmdbv3api
+psycopg2
+flask_mysqldb
