@@ -36,8 +36,7 @@ def get_provider(movie_id):
         print(logo['logo_path'])
 
 
-
-print(get_provider('651571'))
+movie.recommendations
 
 #print(popular_movies())
 #print(movie.credits('775996'))

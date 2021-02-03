@@ -76,15 +76,18 @@ def find_movie(movie_name):
     request = movie.search(movie_name)
     final_result = []
     for r in request:
+    
         movie_videos = movie.videos(r.id)
+        movie_details = movie.details(r.id)
         movie_id = "NOT_FOUND"
         if movie_videos:
             movie_id = movie_videos[0]['key']
         d = {'Name': r.title, 'Rating': r.vote_average, 'Release Date': r.release_date, 'Description' : r.overview, 
-        'Poster': r.poster_path, 'Popularity': r.popularity, 'Movie ID': movie_id, 'Vote Count' : r.vote_count
+        'Poster': r.poster_path, 'Popularity': r.popularity, 'Movie ID': movie_id, 'Vote Count' : r.vote_count,
+        'Revenue': movie_details['revenue']
         }
         final_result.append(d)
-    return final_result[:5]
+    return final_result
 
 
 

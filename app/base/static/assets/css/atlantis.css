@@ -82,7 +82,9 @@ danger-color : #f3545d
   -webkit-box-shadow: none !important;
   box-shadow: none !important; }
 
-
+.currSign:before { 
+  content: '$'; 
+} 
 .fa {
   padding: 20px;
   font-size: 30px;

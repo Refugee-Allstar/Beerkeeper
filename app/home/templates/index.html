@@ -69,7 +69,7 @@
 								{% endif %}
                 				{% endfor %}					
 							</div>
-														<form class="navbar-left navbar-form nav-search mr-md-3" aria-expanded="true" role="form" method="post" action="">
+							<form class="navbar-left navbar-form nav-search mr-md-3" aria-expanded="true" role="form" method="post" action="">
 							{{ form.hidden_tag() }}
                             	{% if msg %}
                                 	{{ msg | safe }}
@@ -129,54 +129,49 @@
 				<div class="col-md-8">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-head-row">
-								<div class="card-title">Search Results</div>
-								<div class="card-tools">
-									<a href="#" class="btn btn-info btn-border btn-round btn-sm mr-2">
-										<span class="btn-label">
-											<i class="fa fa-pencil"></i>
-										</span>
-										Export
-									</a>
-									<a href="#" class="btn btn-info btn-border btn-round btn-sm">
-										<span class="btn-label">
-											<i class="fa fa-print"></i>
-										</span>
-										Print
-									</a>
-								</div>
-							</div>
+							<h4 class="card-title">Search Results</h4>
 						</div>
 						<div class="card-body">
-							<div class="chart-container" style="min-height: 375px">
-								    <div class="table-responsive">
-                                        <table id="table1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Poster</th>
-                                                    <th>Name</th>
-                                                    <th>Rating</th>
-                                                    <th>Release Date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-    
-                                            {% for movie in result %}
-                                                <tr data-placement="bottom" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  movie['Name'] }}" data-content="{{  movie['Description']  }} <a href='https://www.youtube.com/watch?v={{  movie['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)">
-                                                    
-                                                    <td>
-                                                        <img class="rounded-circle m-r-10" style="width:40px;" src="https://image.tmdb.org/t/p/w500/{{ movie['Poster'] }}">
-                                                    </td>
-                                                    <td>{{ movie['Name'] }}</td>
-                                                    <td>{{ movie['Rating'] }}</td>
-                                                    <td>{{ movie['Release Date'] }}</td>
-                                                </tr>
-                                            {% endfor %}
-                                            </tbody>    
-                                        </table>
-                                    </div>
+							<div class="table-responsive">
+								<table id="multi-filter-select" class="display table table-striped table-hover" >
+									<thead>
+										<tr>
+											<th>Title</th>
+											<th>Rating</th>
+											<th>Release Date</th>
+											<th>Play Trailer</th>
+											<th>Popularity</th>
+											<th>Revenue</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>Title</th>
+											<th>Rating</th>
+											<th>Release Date</th>
+											<th>Play Trailer</th>
+											<th>Popularity</th>
+											<th>Revenue</th>
+										</tr>
+									</tfoot>
+									<tbody>
+										{% for movie in result %}
+										<tr>
+											<td>{{ movie['Name'] }}</td>
+											<td>{{ movie['Rating'] }}</td>
+											<td>{{ movie['Release Date'] }}</td>
+											<td>
+												<div class="circular--portrait">	
+													<img src="https://image.tmdb.org/t/p/w500/{{ movie['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  movie['Name'] }}" data-content="{{  movie['Description']  }} <a href='https://www.youtube.com/watch?v={{  movie['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)" /></td>
+												</div>
+											</td>
+											<td>{{ movie['Popularity'] }}</td>
+											<td><div class="myDIV">{{ movie['Revenue'] }}</div></td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
 							</div>
-							<div id="myChartLegend"></div>
 						</div>
 					</div>
 				</div>
@@ -734,4 +729,44 @@ snapshot_title_elem.innerHTML = movie_name;
 ///end update movie snapshot title
 }
 </script>
+
+<script>
+
+$('#multi-filter-select').DataTable( {
+	"order": [[ 5, "desc" ]],
+	"pageLength": 5,
+	initComplete: function () {
+		this.api().columns().every( function () {
+			var column = this;
+			var select = $('<select class="form-control"><option value=""></option></select>')
+			.appendTo( $(column.footer()).empty() )
+			.on( 'change', function () {
+				var val = $.fn.dataTable.util.escapeRegex(
+					$(this).val()
+					);
+
+				column
+				.search( val ? '^'+val+'$' : '', true, false )
+				.draw();
+			} );
+
+			column.data().unique().sort().each( function ( d, j ) {
+				select.append( '<option value="'+d+'">'+d+'</option>' )
+			} );
+		} );
+	}
+});
+
+</script>
+
+<script> 
+let x = document.querySelectorAll(".myDIV"); 
+for (let i = 0, len = x.length; i < len; i++) { 
+	let num = Number(x[i].innerHTML) 
+				.toLocaleString('en'); 
+	x[i].innerHTML = num; 
+	x[i].classList.add("currSign"); 
+} 
+</script> 
+
 {% endblock javascripts %}
