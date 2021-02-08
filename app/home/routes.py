@@ -32,6 +32,26 @@ def update_status():
 
 
 def get_provider(movie_id):
+    d = movie.release_dates(movie_id) 
+    #print(json.dumps(d_new, indent=2))
+    release = d['results']
+    for i in release:
+        if i['iso_3166_1'] == "US":
+            release_dates = i['release_dates']
+            for j in release_dates:
+                platforms = []
+                for n in release_dates:
+                    try:
+                        if n['note']:
+                            platforms.append(n['note'])
+                            return {'Networks': platforms, 'Logo': 'N/A'}
+                    except:
+                        return {'Networks': 'KODI', 'Logo': 'N/A'}
+                else:
+                    pass
+
+
+def rent_services(movie_id):
     d = requests.get('https://api.themoviedb.org/3/movie/'+movie_id+'/watch/providers?api_key='+tmdb.api_key+'&language=en-US')
     d_new = d.json()
     rent_services = []
@@ -49,17 +69,14 @@ def get_provider(movie_id):
             return rent_services 
         except:
                 return {'Networks': 'N/A', 'Logo': 'N/A'}
-
-
-
-
 def popular():
     popular = movie.popular()
     popular_movies = []
     for p in popular:
         network = get_provider(str(p.id))
-        print(network)
-        #print(p.id, p.title)
+        if not network:
+            network = rent_services(str(p.id))
+        print(p.id, p.title, network)
         movie_videos = movie.videos(p.id)
         movie_id = "NOT_FOUND"
         if movie_videos:
@@ -76,16 +93,23 @@ def find_movie(movie_name):
     request = movie.search(movie_name)
     final_result = []
     for r in request:
-    
+        network = get_provider(str(r.id))
+        if not network:
+            network = rent_services(str(r.id))
         movie_videos = movie.videos(r.id)
         movie_details = movie.details(r.id)
         movie_id = "NOT_FOUND"
+        try:
+            release_date = r.release_date
+        except:
+            release_date = "UNKNOWN"
         if movie_videos:
             movie_id = movie_videos[0]['key']
-        d = {'Name': r.title, 'Rating': r.vote_average, 'Release Date': r.release_date, 'Description' : r.overview, 
+        d = {'Name': r.title, 'Rating': r.vote_average, 'Release Date': release_date, 'Description' : r.overview, 
         'Poster': r.poster_path, 'Popularity': r.popularity, 'Movie ID': movie_id, 'Vote Count' : r.vote_count,
-        'Revenue': movie_details['revenue']
+        'Revenue': movie_details['revenue'], 'Provider_Info': network
         }
+        print(d)
         final_result.append(d)
     return final_result
 

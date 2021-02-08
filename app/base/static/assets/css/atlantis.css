@@ -82,6 +82,12 @@ danger-color : #f3545d
   -webkit-box-shadow: none !important;
   box-shadow: none !important; }
 
+
+  #button_youtube {
+    font-size: 2em; 
+    padding: .5em 1em;
+  }
+
 .currSign:before { 
   content: '$'; 
 } 

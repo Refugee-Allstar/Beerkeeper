@@ -32,10 +32,13 @@
 								{% for p in popular %}
                 				{% if loop.index == 1 %}
 									<div class="circular--portrait">
-										<img id= "mostpopular" src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target={{ p['Provider_Info']}}><br></br></a>" data-html="true" onclick="update_snapshot(this)" />
+									
+										<img id= "mostpopular" src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target={{ p['Provider_Info']}}><br></br></a>" data-html="true" onclick="more_info(this)" />
 									</div>
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="{{  p['Name'] }}">Open modal for {{  p['Name'] }}</button>
 									<h6 id="popular_1" class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
 										<p>Rating: {{ p['Rating'] }}/10</p>
+										<span hidden = "true" id='snaphot_platform' class="badge badge-info">{{ p['Provider_Info'] }}</span>
 										{% for network in p['Provider_Info'] %}
 										<p hidden id="popular_1_providers_logos" src="https://image.tmdb.org/t/p/original/{{ network['Logo'] }}" height='25px' width='25px'>
 										{% endfor %}
@@ -50,10 +53,11 @@
 								{% for p in popular %}
                 				{% if loop.index == 2 %}
 									<div class="circular--portrait">
-										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)" />
+										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="more_info(this)" />
 									</div>
 								<h6 class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
 									<p>Rating: {{ p['Rating'] }}/10</p>
+									<span hidden="true" id='snaphot_platform' class="badge badge-info">{{ p['Provider_Info'] }}</span>
 								</div>
 								{% endif %}
                 				{% endfor %}
@@ -61,29 +65,15 @@
 								{% for p in popular %}
                 				{% if loop.index == 3 %}
 									<div class="circular--portrait">
-										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)" />
+										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="more_info(this)" />
 									</div>
 									<h6 class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
 										<p>Rating: {{ p['Rating'] }}/10</p>
+										<span hidden ="true" id='snaphot_platform' class="badge badge-info">{{ p['Provider_Info'] }}</span>
 								</div>
 								{% endif %}
                 				{% endfor %}					
 							</div>
-							<form class="navbar-left navbar-form nav-search mr-md-3" aria-expanded="true" role="form" method="post" action="">
-							{{ form.hidden_tag() }}
-                            	{% if msg %}
-                                	{{ msg | safe }}
-                                {% endif %}                     
-							<div class="input-group">
-							{{ form.movie(placeholder="Search For Movies", class="form-control") }}
-								<div class="input-group-prepend">
-									<button type="submit" class="btn btn-search pr-1">
-										<i class="fa fa-search search-icon"></i>
-									</button>
-								</div>
-							</form>
-							</div>
-							<p> SEARCH FOR MOVIES</p>	
 						</div>
 					</div>
 				</div>
@@ -99,22 +89,20 @@
 								</div>
 								<div class="col-xl-8">
 									<div id="container">
-										<div id='wrap-player'>
-										<div class="video-container">
-											<div id="player"></div>
+										<div>
+										<div>
+											<div></div>
 												<div class="card-footer bg-transparent border-success">
 												<h6 class="fw-bold text-uppercase text-danger op-8">Watch On</h6>
-												{% for p in popular %}
-                								{% if loop.index == 3 %}
-												{% for network in p['Provider_Info'] %}
-												<img src="https://image.tmdb.org/t/p/original/{{ network['Logo'] }}" height='25px' width='25px'>
-												{% endfor %}
+												
+					
+												<!--<img src="https://image.tmdb.org/t/p/original/network['Logo']" height='25px' width='25px'>-->
+												
 												<br></br>
-												{% for network in p['Provider_Info'] %}
-												<span class="badge badge-info">{{ network['Networks'] }}</span>
-												{% endfor %}
-											{% endif %}
-                							{% endfor %}
+												
+												<!--<span id='snaphot_platform' class="badge badge-info">p['Provider_Info']</span>-->
+												
+								
 										</div>
 										</div> 
 									</div>
@@ -130,8 +118,27 @@
 					<div class="card">
 						<div class="card-header">
 							<h4 class="card-title">Search Results</h4>
+								<div class="form-group">
+								<form class="navbar-left navbar-form nav-search mr-md-3" aria-expanded="true" role="form" method="post" action="">  
+									<div class="input-icon">
+									<span class="input-icon-addon">
+									<button type="submit" class="btn btn-search pr-1">
+									</button>
+									</span>
+								</div>
+							</div>                
+							<div class="input-group">
+							{{ form.movie(placeholder="Search For Movies", class="form-control") }}
+								<div class="input-group-prepend">
+									<button type="submit" class="btn btn-search pr-1">
+										<i class="fa fa-search search-icon"></i>
+									</button>
+								</div>
+							</form>
+							</div>
 						</div>
 						<div class="card-body">
+
 							<div class="table-responsive">
 								<table id="multi-filter-select" class="display table table-striped table-hover" >
 									<thead>
@@ -139,9 +146,9 @@
 											<th>Title</th>
 											<th>Rating</th>
 											<th>Release Date</th>
-											<th>Play Trailer</th>
+											<th>More Info</th>
 											<th>Popularity</th>
-											<th>Revenue</th>
+											<th hidden="true">Trailer</th>
 										</tr>
 									</thead>
 									<tfoot>
@@ -149,9 +156,9 @@
 											<th>Title</th>
 											<th>Rating</th>
 											<th>Release Date</th>
-											<th>Play Trailer</th>
+											<th>More Info</th>
 											<th>Popularity</th>
-											<th>Revenue</th>
+											<th hidden="true">Trailer</th>
 										</tr>
 									</tfoot>
 									<tbody>
@@ -162,11 +169,12 @@
 											<td>{{ movie['Release Date'] }}</td>
 											<td>
 												<div class="circular--portrait">	
-													<img src="https://image.tmdb.org/t/p/w500/{{ movie['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  movie['Name'] }}" data-content="{{  movie['Description']  }} <a href='https://www.youtube.com/watch?v={{  movie['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)" /></td>
+													<img id="result_id" src="https://image.tmdb.org/t/p/w500/{{ movie['Poster'] }}" tabindex="0" title="{{  movie['Name'] }}" data-content="{{  movie['Description']  }} <a href='https://www.youtube.com/watch?v={{  movie['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="more_info(this)" /></td>
 												</div>
 											</td>
 											<td>{{ movie['Popularity'] }}</td>
-											<td><div class="myDIV">{{ movie['Revenue'] }}</div></td>
+											
+											<td hidden="true"></div>
 										</tr>
 										{% endfor %}
 									</tbody>
@@ -597,12 +605,64 @@
 			</div>
 		
 
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">New message</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+					<div class="form-group">
+						<label for="recipient-name" class="col-form-label">Recipient:</label>
+						<input type="text" class="form-control" id="recipient-name">
+					</div>
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Message:</label>
+						<textarea class="form-control" id="message-text"></textarea>
+					</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Send message</button>
+				</div>
+				</div>
+			</div>
+			</div>
+
+
+
+    <!-- this is outer div element -->
+    <div id="d1"> 
+        <!-- this is inner div element -->
+        <div>This is a div element </div> 
+        <!-- this is paragraph element -->
+        <p style="background-color:lightgreen">This is a paragraph</p> 
+    </div> 
+    <div id="d2" /> 
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
+<script> 
+function handler( event ) {
+  var target = $( event.target );
+  if ( target.is( "li" ) ) {
+    target.children().toggle();
+  }
+}
+$( "ul" ).click( handler ).find( "ul" ).hide();
+</script> 
 
 <script>
 function rating_update(elem){
@@ -610,24 +670,14 @@ function rating_update(elem){
     var update_value = elem.getAttribute('data-original-title'); //GRAB HTML WITH MOVIE TITLE
     var title_elem = document.getElementById("rating_title"); //GRAB CURRENT FIELD WITH RATING "NA" PLACEHOLDER 
     var rating_elem= document.getElementById("rating_score"); //GRAB CURRENT FIELD WITH TITLE "NO MOVIE SELECTED" PLACEHOLDER
-    
-
     var content = title_elem.innerHTML;
-
-
     title_elem.innerHTML= update_value;
-
-
-    
     var string = elem.innerHTML; 
     var result = string.match(/<td>\d.\d<[/]td>/g);
     if (result == null){
         result = string.match(/<td>\d<[/]td>/g);
     }
-
-
     rating_elem.innerHTML = result;
-   
     var new_rating= rating_elem.innerHTML;
     var result = new_rating.match(/\d.\d/g);
     if (result == null){
@@ -649,84 +699,48 @@ function rating_update(elem){
 </script>
 
 <script>
-
-
-
-var mostpopular = document.getElementById("mostpopular");
-var most_pop_unparsed = mostpopular.getAttribute('data-content');
-
-var most_pop_parsed = most_pop_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
-var most_pop_no_equals = most_pop_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
-
-
-var tag = document.createElement('script');
-
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
-var player;
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        playerVars: {
-
-            enablejsapi: 1,
-            disablekb: 1,
-            showinfo: 0,
-            controls: 0,
-            fs: 0,
-            
-        },
-        height: '100%',
-        width: '100%',
-        videoId: most_pop_no_equals[1],
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
-}
-
-// 4. The API will call this function when the video player is ready.
-function onPlayerReady(event) {
-    event.target.playVideo();
-}
-
-// 5. The API calls this function when the player's state changes.
-//    The function indicates that when playing a video (state=1),
-//    the player should play for six seconds and then stop.
-var done = false;
-function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-        setTimeout(stopVideo, 6000);
-        done = true;
-    }
-}
-function stopVideo() {
-    player.stopVideo();
-}
+$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('New message to ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})
 </script>
-
-
-
-
 <script>
 ///start update trailer
-function update_snapshot(elem) {
-
+function more_info(elem) {
+	console.log(elem);
+	var movie_title = elem.getAttribute('data-original-title');
     var trailer_unparsed = elem.getAttribute('data-content'); //GRAB HTML WITH YOUTUBE URL
+	var description = trailer_unparsed.match(/^[\s\S]*?(?=<a)/g);
+	console.log(description);
 	var trailer_parsed = trailer_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
     var trailer_url_no_equals = trailer_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
-    document.getElementById("player").src = "https://www.youtube.com/embed/".concat(trailer_url_no_equals[1])
-///end update trailer
-
-///start update snapshot title
-var movie_name = elem.getAttribute('data-original-title'); ///grab title from click element 
-var snapshot_title_elem = document.getElementById("snapshot_title");
-snapshot_title_elem.innerHTML = movie_name;
-///end update movie snapshot title
+	var slider = document.createElement("input");
+	slider.type = "range"
+	swal({
+		title: movie_title,
+		text: description[0],
+		button: 'Close Info',
+		content: {
+			element: "iframe",
+			attributes: {
+				width: '100%', 
+				height: '100%', 
+				src: 'https://www.youtube.com/embed/'.concat(trailer_url_no_equals[1]), 
+				frameborder :'0',
+				enablejsapi: 1,
+            	disablekb: 1,
+            	showinfo: 0,
+            	controls: 0,
+            	fs: 0,
+			},
+		content: slider,		 
+		} 
+	});
 }
 </script>
 
@@ -738,7 +752,8 @@ $('#multi-filter-select').DataTable( {
 	initComplete: function () {
 		this.api().columns().every( function () {
 			var column = this;
-			var select = $('<select class="form-control"><option value=""></option></select>')
+			console.log(column)
+			var select = $('<select class="navbar-left navbar-form nav-search mr-md-3"><option value=""></option></select>')
 			.appendTo( $(column.footer()).empty() )
 			.on( 'change', function () {
 				var val = $.fn.dataTable.util.escapeRegex(
@@ -768,5 +783,6 @@ for (let i = 0, len = x.length; i < len; i++) {
 	x[i].classList.add("currSign"); 
 } 
 </script> 
+
 
 {% endblock javascripts %}
