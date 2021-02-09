@@ -107,7 +107,7 @@ def find_movie(movie_name):
             movie_id = movie_videos[0]['key']
         d = {'Name': r.title, 'Rating': r.vote_average, 'Release Date': release_date, 'Description' : r.overview, 
         'Poster': r.poster_path, 'Popularity': r.popularity, 'Movie ID': movie_id, 'Vote Count' : r.vote_count,
-        'Revenue': movie_details['revenue'], 'Provider_Info': network
+        'Revenue': movie_details['revenue'], 'Provider_Info': 'network'
         }
         print(d)
         final_result.append(d)

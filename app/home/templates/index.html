@@ -35,7 +35,6 @@
 									
 										<img id= "mostpopular" src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target={{ p['Provider_Info']}}><br></br></a>" data-html="true" onclick="more_info(this)" />
 									</div>
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="{{  p['Name'] }}">Open modal for {{  p['Name'] }}</button>
 									<h6 id="popular_1" class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
 										<p>Rating: {{ p['Rating'] }}/10</p>
 										<span hidden = "true" id='snaphot_platform' class="badge badge-info">{{ p['Provider_Info'] }}</span>
@@ -164,13 +163,15 @@
 									<tbody>
 										{% for movie in result %}
 										<tr>
-											<td>{{ movie['Name'] }}</td>
+											<td class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="{{  movie }}">{{  movie['Name'] }}</td>
 											<td>{{ movie['Rating'] }}</td>
 											<td>{{ movie['Release Date'] }}</td>
 											<td>
 												<div class="circular--portrait">	
 													<img id="result_id" src="https://image.tmdb.org/t/p/w500/{{ movie['Poster'] }}" tabindex="0" title="{{  movie['Name'] }}" data-content="{{  movie['Description']  }} <a href='https://www.youtube.com/watch?v={{  movie['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="more_info(this)" /></td>
 												</div>
+
+												
 											</td>
 											<td>{{ movie['Popularity'] }}</td>
 											
@@ -614,6 +615,103 @@
 				<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">New message</h5>
+					<div class="col-xl-8">
+							<div class="card full-height">
+								<div class="card-header">
+									<div class="card-head-row">
+										<div class="card-title">Support Tickets</div>
+										<div class="card-tools">
+											<ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm" id="pills-tab" role="tablist">
+												<li class="nav-item">
+													<a class="nav-link" id="pills-today" data-toggle="pill" href="#pills-today" role="tab" aria-selected="true">Today</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link active" id="pills-week" data-toggle="pill" href="#pills-week" role="tab" aria-selected="false">Week</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link" id="pills-month" data-toggle="pill" href="#pills-month" role="tab" aria-selected="false">Month</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="d-flex">
+										<div class="avatar avatar-online">
+											<span class="avatar-title rounded-circle border border-white bg-info">J</span>
+										</div>
+										<div class="flex-1 ml-3 pt-1">
+											<h6 class="text-uppercase fw-bold mb-1">Joko Subianto <span class="text-warning pl-3">pending</span></h6>
+											<span class="text-muted">I am facing some trouble with my viewport. When i start my</span>
+										</div>
+										<div class="float-right pt-1">
+											<small class="text-muted">8:40 PM</small>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+									<div class="d-flex">
+										<div class="avatar avatar-offline">
+											<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
+										</div>
+										<div class="flex-1 ml-3 pt-1">
+											<h6 class="text-uppercase fw-bold mb-1">Prabowo Widodo <span class="text-success pl-3">open</span></h6>
+											<span class="text-muted">I have some query regarding the license issue.</span>
+										</div>
+										<div class="float-right pt-1">
+											<small class="text-muted">1 Day Ago</small>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+									<div class="d-flex">
+										<div class="avatar avatar-away">
+											<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
+										</div>
+										<div class="flex-1 ml-3 pt-1">
+											<h6 class="text-uppercase fw-bold mb-1">Lee Chong Wei <span class="text-muted pl-3">closed</span></h6>
+											<span class="text-muted">Is there any update plan for RTL version near future?</span>
+										</div>
+										<div class="float-right pt-1">
+											<small class="text-muted">2 Days Ago</small>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+									<div class="d-flex">
+										<div class="avatar avatar-offline">
+											<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
+										</div>
+										<div class="flex-1 ml-3 pt-1">
+											<h6 class="text-uppercase fw-bold mb-1">Peter Parker <span class="text-success pl-3">open</span></h6>
+											<span class="text-muted">I have some query regarding the license issue.</span>
+										</div>
+										<div class="float-right pt-1">
+											<small class="text-muted">2 Day Ago</small>
+										</div>
+									</div>
+									<div class="separator-dashed"></div>
+									<div class="d-flex">
+										<div class="avatar avatar-away">
+											<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
+										</div>
+										<div class="flex-1 ml-3 pt-1">
+											<h6 class="text-uppercase fw-bold mb-1">Logan Paul <span class="text-muted pl-3">closed</span></h6>
+											<span class="text-muted">Is there any update plan for RTL version near future?</span>
+										</div>
+										<div class="float-right pt-1">
+											<small class="text-muted">2 Days Ago</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+
+
+
+
+
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 					</button>
@@ -654,15 +752,7 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-<script> 
-function handler( event ) {
-  var target = $( event.target );
-  if ( target.is( "li" ) ) {
-    target.children().toggle();
-  }
-}
-$( "ul" ).click( handler ).find( "ul" ).hide();
-</script> 
+ 
 
 <script>
 function rating_update(elem){
@@ -700,13 +790,24 @@ function rating_update(elem){
 
 <script>
 $('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
+  var button = $(event.relatedTarget); // Button that triggered the modal
+  var movie_details = button.data('whatever');
+  //var movie_json = JSON.stringify(movie_details);
+  console.log(movie_details);
+  var description_with_slash = movie_details.match(/(?<='Description':)(.*)(?=, 'Poster')/g);
+  var description = description_with_slash[0].replace(/\//g, "");
+
+  var name_with_slash = movie_details.match(/(?<='Name':)(.*)(?=, 'Rating')/g);
+  var name = name_with_slash[0].replace(/\//g, "");
+  console.log(description);
+
+
+   // Extract info from data-* attributes
   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
+  modal.find('.modal-title').text(name)
+  modal.find('.modal-body input').val(description)
 })
 </script>
 <script>
