@@ -9,13 +9,12 @@
 
 	<div class="content">
 		<div class="page-inner">
-			<h4 class="page-title">Chart.js</h4>
-			<div class="page-category">Simple yet flexible JavaScript charting for designers & developers. Please checkout their <a href="https://www.chartjs.org/" target="_blank">full documentation</a>.</div>
+			<h4 class="page-title">Movie Charts</h4>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Line Chart</div>
+							<div class="card-title">Active Viewers</div>
 						</div>
 						<div class="card-body">
 							<div class="chart-container">
@@ -27,7 +26,7 @@
 				<div class="col-md-6">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Bar Chart</div>
+							<div class="card-title">Monthly Movie Habits</div>
 						</div>
 						<div class="card-body">
 							<div class="chart-container">
@@ -39,7 +38,7 @@
 				<div class="col-md-6">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Pie Chart</div>
+							<div class="card-title">Rating Overview</div>
 						</div>
 						<div class="card-body">
 							<div class="chart-container">
@@ -51,7 +50,7 @@
 				<div class="col-md-6">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Doughnut Chart</div>
+							<div class="card-title">Top Genres This Month</div>
 						</div>
 						<div class="card-body">
 							<div class="chart-container">
@@ -63,7 +62,7 @@
 				<div class="col-md-6">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Radar Chart</div>
+							<div class="card-title">Yearly Genre Map</div>
 						</div>
 						<div class="card-body">
 							<div class="chart-container">
@@ -75,7 +74,7 @@
 				<div class="col-md-6">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Bubble Chart</div>
+							<div class="card-title">Future Use</div>
 						</div>
 						<div class="card-body">
 							<div class="chart-container">
@@ -87,7 +86,7 @@
 				<div class="col-md-6">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Multiple Line Chart</div>
+							<div class="card-title">Future Use</div>
 						</div>
 						<div class="card-body">
 							<div class="chart-container">
@@ -99,7 +98,7 @@
 				<div class="col-md-6">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Multiple Bar Chart</div>
+							<div class="card-title">Future Use</div>
 						</div>
 						<div class="card-body">
 							<div class="chart-container">
@@ -111,12 +110,10 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							<div class="card-title">Chart with HTML Legends</div>
+							<div class="card-title">Future Use (Trends)</div>
 						</div>
 						<div class="card-body">
-							<div class="card-sub">
-								Sometimes you need a very complex legend. In these cases, it makes sense to generate an HTML legend. Charts provide a generateLegend() method on their prototype that returns an HTML string for the legend.
-							</div>
+				
 							<div class="chart-container">
 								<canvas id="htmlLegendsChart"></canvas>
 							</div>
@@ -151,7 +148,7 @@
 			data: {
 				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 				datasets: [{
-					label: "Active Users",
+					label: "Active Viewers",
 					borderColor: "#1d7af3",
 					pointBorderColor: "#FFF",
 					pointBackgroundColor: "#1d7af3",
@@ -195,7 +192,7 @@
 			data: {
 				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 				datasets : [{
-					label: "Sales",
+					label: "Monthly Movies Viewed",
 					backgroundColor: 'rgb(23, 125, 255)',
 					borderColor: 'rgb(23, 125, 255)',
 					data: [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
@@ -218,11 +215,11 @@
 			type: 'pie',
 			data: {
 				datasets: [{
-					data: [50, 35, 15],
+					data: [20, 40, 40],
 					backgroundColor :["#1d7af3","#f3545d","#fdaf4b"],
 					borderWidth: 0
 				}],
-				labels: ['New Visitors', 'Subscribers', 'Active Users'] 
+				labels: ['Highly Recommend', 'Recommend', 'Not Recommend'] 
 			},
 			options : {
 				responsive: true, 
@@ -257,14 +254,14 @@
 			type: 'doughnut',
 			data: {
 				datasets: [{
-					data: [10, 20, 30],
+					data: [4, 2, 1],
 					backgroundColor: ['#f3545d','#fdaf4b','#1d7af3']
 				}],
 
 				labels: [
-				'Red',
-				'Yellow',
-				'Blue'
+				'Sci-Fi',
+				'Drama',
+				'Thriller'
 				]
 			},
 			options: {
@@ -287,23 +284,23 @@
 		var myRadarChart = new Chart(radarChart, {
 			type: 'radar',
 			data: {
-				labels: ['Running', 'Swimming', 'Eating', 'Cycling', 'Jumping'],
+				labels: ['Sci-Fi', 'Action', 'Horror', 'Drama', 'Rom-Com'],
 				datasets: [{
-					data: [20, 10, 30, 2, 30],
+					data: [20, 11, 15, 10, 6],
 					borderColor: '#1d7af3',
 					backgroundColor : 'rgba(29, 122, 243, 0.25)',
 					pointBackgroundColor: "#1d7af3",
 					pointHoverRadius: 4,
 					pointRadius: 3,
-					label: 'Team 1'
+					label: '2021'
 				}, {
-					data: [10, 20, 15, 30, 22],
+					data: [8, 3, 4, 1, 2],
 					borderColor: '#716aca',
 					backgroundColor: 'rgba(113, 106, 202, 0.25)',
 					pointBackgroundColor: "#716aca",
 					pointHoverRadius: 4,
 					pointRadius: 3,
-					label: 'Team 2'
+					label: '2022'
 				},
 				]
 			},
@@ -356,7 +353,7 @@
 			data: {
 				labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 				datasets: [{
-					label: "Python",
+					label: "Liked",
 					borderColor: "#1d7af3",
 					pointBorderColor: "#FFF",
 					pointBackgroundColor: "#1d7af3",
@@ -369,7 +366,7 @@
 					borderWidth: 2,
 					data: [30, 45, 45, 68, 69, 90, 100, 158, 177, 200, 245, 256]
 				},{
-					label: "PHP",
+					label: "Disliked",
 					borderColor: "#59d05d",
 					pointBorderColor: "#FFF",
 					pointBackgroundColor: "#59d05d",
@@ -382,7 +379,7 @@
 					borderWidth: 2,
 					data: [10, 20, 55, 75, 80, 48, 59, 55, 23, 107, 60, 87]
 				}, {
-					label: "Ruby",
+					label: "New",
 					borderColor: "#f3545d",
 					pointBorderColor: "#FFF",
 					pointBackgroundColor: "#f3545d",

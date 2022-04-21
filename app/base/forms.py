@@ -2,21 +2,21 @@
 
 
 from flask_wtf import FlaskForm
-from wtforms import TextField, PasswordField
+from wtforms import StringField, PasswordField
 from wtforms.validators import InputRequired, Email, DataRequired
 
 ## login and registration
 
 class LoginForm(FlaskForm):
-    username = TextField    ('Username', id='username_login'   , validators=[DataRequired()])
+    username = StringField    ('Username', id='username_login'   , validators=[DataRequired()])
     password = PasswordField('Password', id='pwd_login'        , validators=[DataRequired()])
 
 class CreateAccountForm(FlaskForm):
-    username = TextField('Username'     , id='username_create' , validators=[DataRequired()])
-    email    = TextField('Email'        , id='email_create'    , validators=[DataRequired(), Email()])
+    username = StringField('Username'     , id='username_create' , validators=[DataRequired()])
+    email    = StringField('Email'        , id='email_create'    , validators=[DataRequired(), Email()])
     password = PasswordField('Password' , id='pwd_create'      , validators=[DataRequired()])
 class MovieForm(FlaskForm):
-    movie = TextField ('Movie', id='mtitle'   , validators=[DataRequired()])
+    movie = StringField ('Movie', id='mtitle'   , validators=[DataRequired()])
 
 class PopupForm(FlaskForm):
-    movie = TextField ('Title', id='movie_title')
+    movie = StringField ('Title', id='movie_title')
