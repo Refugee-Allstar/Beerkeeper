@@ -6,335 +6,271 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock stylesheets %}
-
 {% block content %}
-			
-	<div class="content">
-		<div class="panel-header bg-primary-gradient">
-			<div class="page-inner py-5">
-				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
-					<div>
-						<h2 class="text-white pb-2 fw-bold">Josh's Movie Dashboard</h2>
-						<h5 class="text-white op-7 mb-2">If that cat had nine lives, he just spent 'em all. - Cousin Eddie</h5>
-					</div>
 
-				</div>
-			</div>
-		</div>
-		<div class="page-inner mt--5">
-			<div class="row mt--2">
-				<div class="col-md-6">
-					<div class="card full-height">
-						<div class="card-body">
-							<div class="card-title">Popular Movies Today</div>
-							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
-								<div class="px-2 pb-2 pb-md-0 text-center">
-								{% for p in popular %}
-                				{% if loop.index == 1 %}
-									<div class="circular--portrait">
-										<img id= "mostpopular" src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target={{ p['Provider_Info']}}><br></br></a>" data-html="true" onclick="update_snapshot(this)" />
-									</div>
-									<h6 id="popular_1" class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
-										<p>Rating: {{ p['Rating'] }}/10</p>
-										{% for network in p['Provider_Info'] %}
-										<p hidden id="popular_1_providers_logos" src="https://image.tmdb.org/t/p/original/{{ network['Logo'] }}" height='25px' width='25px'>
-										{% endfor %}
-										<br></br>
-										{% for network in p['Provider_Info'] %}
-										<span hidden id="popular_1_provider_names" class="badge badge-info">{{ network['Networks'] }}</span>
-										{% endfor %}
-									</div>
-								{% endif %}
-                				{% endfor %}
-								<div class="px-2 pb-2 pb-md-0 text-center">
-								{% for p in popular %}
-                				{% if loop.index == 2 %}
-									<div class="circular--portrait">
-										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)" />
-									</div>
-								<h6 class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
-									<p>Rating: {{ p['Rating'] }}/10</p>
-								</div>
-								{% endif %}
-                				{% endfor %}
-								<div class="px-2 pb-2 pb-md-0 text-center">
-								{% for p in popular %}
-                				{% if loop.index == 3 %}
-									<div class="circular--portrait">
-										<img src="https://image.tmdb.org/t/p/w500/{{ p['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  p['Name'] }}" data-content="{{  p['Description']  }} <a href='https://www.youtube.com/watch?v={{  p['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)" />
-									</div>
-									<h6 class="fw-bold mt-3 mb-0">{{ p['Name'] }}</h6>
-										<p>Rating: {{ p['Rating'] }}/10</p>
-								</div>
-								{% endif %}
-                				{% endfor %}					
-							</div>
-							<form class="navbar-left navbar-form nav-search mr-md-3" aria-expanded="true" role="form" method="post" action="">
-							{{ form.hidden_tag() }}
-                            	{% if msg %}
-                                	{{ msg | safe }}
-                                {% endif %}                     
-							<div class="input-group">
-							{{ form.movie(placeholder="Search For Movies", class="form-control") }}
-								<div class="input-group-prepend">
-									<button type="submit" class="btn btn-search pr-1">
-										<i class="fa fa-search search-icon"></i>
-									</button>
-								</div>
-							</form>
-							</div>
-							<p> SEARCH FOR MOVIES</p>	
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="card full-height">
-						<div class="card-body">
-							{% for p in popular %}
-                			{% if loop.index == 1 %}
-							<div id="snapshot_title" class="card-title">{{ p['Name'] }}</div>
-							{% endif %}
-                			{% endfor %}
-							<div class="row py-3">
-								</div>
-								<div class="col-xl-8">
-									<div id="container">
-										<div id='wrap-player'>
-										<div class="video-container">
-											<div id="player"></div>
-									</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-8">
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Search Results</h4>
-						</div>
-						<div class="card-body">
-							<div class="table-responsive">
-								<table id="multi-filter-select" class="display table table-striped table-hover" >
-									<thead>
-										<tr>
-											<th>Title</th>
-											<th>Rating</th>
-											<th>Release Date</th>
-											<th>Play Trailer</th>
-											<th>Popularity</th>
-											<th>Revenue</th>
-										</tr>
-									</thead>
-									<tfoot>
-										<tr>
-											<th>Title</th>
-											<th>Rating</th>
-											<th>Release Date</th>
-											<th>Play Trailer</th>
-											<th>Popularity</th>
-											<th>Revenue</th>
-										</tr>
-									</tfoot>
-									<tbody>
-										{% for movie in result %}
-										<tr>
-											<td>{{ movie['Name'] }}</td>
-											<td>{{ movie['Rating'] }}</td>
-											<td>{{ movie['Release Date'] }}</td>
-											<td>
-												<div class="circular--portrait">	
-													<img src="https://image.tmdb.org/t/p/w500/{{ movie['Poster'] }}" tabindex="0" data-toggle="popover" data-trigger="focus" title="{{  movie['Name'] }}" data-content="{{  movie['Description']  }} <a href='https://www.youtube.com/watch?v={{  movie['Movie ID']  }}' target='player'><br></br></a>" data-html="true" onclick="update_snapshot(this)" /></td>
-												</div>
-											</td>
-											<td>{{ movie['Popularity'] }}</td>
-											<td><div class="myDIV">{{ movie['Revenue'] }}</div></td>
-										</tr>
-										{% endfor %}
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div id="player"></div>
-			</div>
 
-		
 
+      <div class="row"> 
+        <div class="col-lg-7 mb-lg-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="d-flex flex-column h-100">
+                    {% for r in ranking %}
+                    {% if loop.index == 1 %}
+                    <h1>2021 League Winner: {{ r['Name'] }}</h1>
+                     {% endif %} 
+                    {% endfor %}
+                  {% for top in top_roster %}
+                    <div>{{ top['name'] }}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                
+                <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
+                  <div class="bg-gradient-primary border-radius-lg h-100">
+                    <div class="position-relative d-flex align-items-center justify-content-center h-100">
+                      <img class="w-100 position-relative z-index-2 pt-4" src="https://c.tenor.com/3c5VYJEV_zsAAAAM/full-chub-right-now-talking.gif" alt="rocket">
+                    </div>
+                  </div>
+                </div>
+              
+              </div>
+            </div>
+      
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card h-100 p-3">
+            <div style="width: 100%; height: 0; padding-top: 100.0000%; padding-bottom: 48px; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden; border-radius: 8px; will-change: transform;">  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"    src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAFI-iZMqaA&#x2F;view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">  </iframe></div><a href="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAFI-iZMqaA&#x2F;view?utm_content=DAFI-iZMqaA&amp;utm_campaign=designshare&amp;utm_medium=embeds&amp;utm_source=link" target="_blank" rel="noopener"></a> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="row">
+                <div class="col">            
+                  <h6>2021 Results</h6>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Team Name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Place</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr>
+                      
+                     {% for r in ranking %}
+                      <td>
+
+                        <span class="text-xs font-weight-bold"> {{ r['Name'] }} </span>
+                      </td>
+                      <td class="align-middle">
+                              <span class="text-xs font-weight-bold">{{ r['Rank'] }}</span>
+                            </div>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
 
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
+<!-- Specific JS goes HERE --> 
 {% block javascripts %}
 
+  <script src="{{ config.ASSETS_ROOT }}/js/plugins/chartjs.min.js"></script>
+  <script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
 
-<script>
-function rating_update(elem){
-    
-    var update_value = elem.getAttribute('data-original-title'); //GRAB HTML WITH MOVIE TITLE
-    var title_elem = document.getElementById("rating_title"); //GRAB CURRENT FIELD WITH RATING "NA" PLACEHOLDER 
-    var rating_elem= document.getElementById("rating_score"); //GRAB CURRENT FIELD WITH TITLE "NO MOVIE SELECTED" PLACEHOLDER
-    
-
-    var content = title_elem.innerHTML;
-
-
-    title_elem.innerHTML= update_value;
-
-
-    
-    var string = elem.innerHTML; 
-    var result = string.match(/<td>\d.\d<[/]td>/g);
-    if (result == null){
-        result = string.match(/<td>\d<[/]td>/g);
-    }
-
-
-    rating_elem.innerHTML = result;
-   
-    var new_rating= rating_elem.innerHTML;
-    var result = new_rating.match(/\d.\d/g);
-    if (result == null){
-        result = new_rating.match(/\d\d|\d/g);
-    }
-
-    //EDIT THE PROGRESS BAR FOR RATING
-    var prog = parseFloat(result[0]);
-    var new_width = (prog*10).toString();
-    final_width = new_width.concat("%")
-    document.getElementById("rating_progbar").style["width"] = final_width;
-
-    //CHANGE THE TRAILER TO THE CURRENT SELECTION
-    var trailer_unparsed = elem.getAttribute('data-content'); //GRAB HTML WITH YOUTUBE URL
-    var trailer_parsed = trailer_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
-    var trailer_url_no_equals = trailer_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
-    document.getElementById("ytplayer").src = "https://www.youtube.com/embed/".concat(trailer_url_no_equals[1])
-}
-</script>
-
-<script>
-
-
-
-var mostpopular = document.getElementById("mostpopular");
-var most_pop_unparsed = mostpopular.getAttribute('data-content');
-
-var most_pop_parsed = most_pop_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
-var most_pop_no_equals = most_pop_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
-
-
-var tag = document.createElement('script');
-
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
-var player;
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        playerVars: {
-
-            enablejsapi: 1,
-            disablekb: 1,
-            showinfo: 0,
-            controls: 0,
-            fs: 0,
-            
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+          label: "Sales",
+          tension: 0.4,
+          borderWidth: 0,
+          borderRadius: 4,
+          borderSkipped: false,
+          backgroundColor: "#fff",
+          data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
+          maxBarThickness: 6
+        }, ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
         },
-        height: '100%',
-        width: '100%',
-        videoId: most_pop_no_equals[1],
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+            },
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 500,
+              beginAtZero: true,
+              padding: 15,
+              font: {
+                size: 14,
+                family: "Open Sans",
+                style: 'normal',
+                lineHeight: 2
+              },
+              color: "#fff"
+            },
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false
+            },
+            ticks: {
+              display: false
+            },
+          },
+        },
+      },
     });
-}
-
-// 4. The API will call this function when the video player is ready.
-function onPlayerReady(event) {
-    event.target.playVideo();
-}
-
-// 5. The API calls this function when the player's state changes.
-//    The function indicates that when playing a video (state=1),
-//    the player should play for six seconds and then stop.
-var done = false;
-function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-        setTimeout(stopVideo, 6000);
-        done = true;
-    }
-}
-function stopVideo() {
-    player.stopVideo();
-}
-</script>
 
 
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
 
+    var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
 
-<script>
-///start update trailer
-function update_snapshot(elem) {
+    gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
 
-    var trailer_unparsed = elem.getAttribute('data-content'); //GRAB HTML WITH YOUTUBE URL
-	var trailer_parsed = trailer_unparsed.match(/(?<!=)=(?!=)[a-zA-Z0-9_.-]*/g);
-    var trailer_url_no_equals = trailer_parsed[1].match(/[a-zA-Z0-9_.-]*/g);
-    document.getElementById("player").src = "https://www.youtube.com/embed/".concat(trailer_url_no_equals[1])
-///end update trailer
+    var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
 
-///start update snapshot title
-var movie_name = elem.getAttribute('data-original-title'); ///grab title from click element 
-var snapshot_title_elem = document.getElementById("snapshot_title");
-snapshot_title_elem.innerHTML = movie_name;
-///end update movie snapshot title
-}
-</script>
+    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
 
-<script>
+    new Chart(ctx2, {
+      type: "line",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+            label: "Mobile apps",
+            tension: 0.4,
+            borderWidth: 0,
+            pointRadius: 0,
+            borderColor: "#cb0c9f",
+            borderWidth: 3,
+            backgroundColor: gradientStroke1,
+            fill: true,
+            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+            maxBarThickness: 6
 
-$('#multi-filter-select').DataTable( {
-	"order": [[ 5, "desc" ]],
-	"pageLength": 5,
-	initComplete: function () {
-		this.api().columns().every( function () {
-			var column = this;
-			var select = $('<select class="form-control"><option value=""></option></select>')
-			.appendTo( $(column.footer()).empty() )
-			.on( 'change', function () {
-				var val = $.fn.dataTable.util.escapeRegex(
-					$(this).val()
-					);
-
-				column
-				.search( val ? '^'+val+'$' : '', true, false )
-				.draw();
-			} );
-
-			column.data().unique().sort().each( function ( d, j ) {
-				select.append( '<option value="'+d+'">'+d+'</option>' )
-			} );
-		} );
-	}
-});
-
-</script>
-
-<script> 
-let x = document.querySelectorAll(".myDIV"); 
-for (let i = 0, len = x.length; i < len; i++) { 
-	let num = Number(x[i].innerHTML) 
-				.toLocaleString('en'); 
-	x[i].innerHTML = num; 
-	x[i].classList.add("currSign"); 
-} 
-</script> 
+          },
+          {
+            label: "Websites",
+            tension: 0.4,
+            borderWidth: 0,
+            pointRadius: 0,
+            borderColor: "#575f9a",
+            borderWidth: 3,
+            backgroundColor: gradientStroke2,
+            fill: true,
+            data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+            maxBarThickness: 6
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: '#b2b9bf',
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#b2b9bf',
+              padding: 20,
+              font: {
+                size: 11,
+                family: "Open Sans",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+  </script>
 
 {% endblock javascripts %}

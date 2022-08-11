@@ -17,9 +17,6 @@ from app.base.models import User
 
 from app.base.util import verify_pass
 import pandas as pd
-import tmdbsimple as tmdb
-
-tmdb.API_KEY = 'f10fc84c1aff3f4baaa8d2328a5f21f3'
 
 @blueprint.route('/random')
 def route_default():

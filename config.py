@@ -14,7 +14,7 @@ class Config(object):
     # This will create a file in <app> FOLDER
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
+    ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')  
 class ProductionConfig(Config):
     DEBUG = True
 
