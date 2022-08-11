@@ -9,10 +9,7 @@ gm = yfa.Game(sc, 'nfl')
 
 
 def get_teams():
-
-
     lg = gm.to_league('406.l.477467')
-
     teams = lg.teams()
     all_names = []
     for key in lg.teams().keys():
@@ -26,7 +23,6 @@ def get_rankings():
     
     all_ranks = []
     for x in range(len(ranks)):
-        print(ranks)
         d={'Name':ranks[x]['name'], 'Rank': ranks[x]['rank'], 'team_key':ranks[x]['team_key']}
         all_ranks.append(d)
     return all_ranks
@@ -47,17 +43,25 @@ def get_players():
         test = json.loads(new, object_hook=lambda d: SimpleNamespace(**d))
         d={'name': test.name}
         top_roster.append(d)
-    print(top_roster)
     return top_roster
 
+def past_ranks(year):
+    year = str(year)
+    try:
+        league = gm.league_ids(year=year)
+        if year == '2016':
+            lg = gm.to_league(league[1])
+        if year == '2017':
+            lg = gm.to_league(league[1])
+        else:
+            lg = gm.to_league(league[0])
+        ranks = lg.standings()
+        all_ranks = []
+        for x in range(len(ranks)):
+            d={'Name':ranks[x]['name'], 'Rank': ranks[x]['rank'], 'team_key':ranks[x]['team_key']}
+            all_ranks.append(d)
+        return all_ranks
+    except:
+        return None
 
-
-# Python program to demonstrate
-# Conversion of JSON data to
-# dictionary
- 
- 
-# importing the module
-
- 
-# Opening JSON file
+print(past_ranks(2018))

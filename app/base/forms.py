@@ -2,7 +2,7 @@
 
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, SelectField
 from wtforms.validators import InputRequired, Email, DataRequired
 
 ## login and registration
@@ -16,7 +16,8 @@ class CreateAccountForm(FlaskForm):
     email    = StringField('Email'        , id='email_create'    , validators=[DataRequired(), Email()])
     password = PasswordField('Password' , id='pwd_create'      , validators=[DataRequired()])
 class MovieForm(FlaskForm):
-    movie = StringField ('Movie', id='mtitle'   , validators=[DataRequired()])
+    mychoices = ['2016','2017','2018','2019','2020','2021','2022']
+    movie = SelectField ('Movie',choices=mychoices, id='mtitle'   , validators=[DataRequired()])
 
 class PopupForm(FlaskForm):
     movie = StringField ('Title', id='movie_title')
