@@ -11,3 +11,5 @@ tmdbsimple
 tmdbv3api
 psycopg2
 flask_mysqldb
+yahoo_fantasy_api
+yahoo_oauth 
